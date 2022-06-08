@@ -9,6 +9,8 @@ contract LpDeployer is IlpDeployer {
         address factory;
         address owner;
         address token;
+        address baseToken;
+        uint256 rewardProportion;
     }
 
     LpParameters public override lpParameters;
@@ -16,15 +18,29 @@ contract LpDeployer is IlpDeployer {
     function deployLpFarm(
         address factory,
         address owner,
-        address token
+        address token,
+        address baseToken,
+        uint256 rewardProportion
     ) internal returns (address lpFarm) {
         lpParameters = LpParameters({
             factory: factory,
             owner: owner,
-            token: token
+            token: token,
+            baseToken: baseToken,
+            rewardProportion: rewardProportion
         });
         lpFarm = address(
-            new LpFarm{salt: keccak256(abi.encode(factory, owner, token))}()
+            new LpFarm{
+                salt: keccak256(
+                    abi.encode(
+                        factory,
+                        owner,
+                        token,
+                        baseToken,
+                        rewardProportion
+                    )
+                )
+            }()
         );
         delete lpParameters;
     }
