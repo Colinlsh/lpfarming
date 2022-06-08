@@ -8,8 +8,6 @@ interface IlpDeployer {
         returns (
             address factory,
             address owner,
-            address token1,
-            address token2,
-            address token3
+            address token
         );
 }
