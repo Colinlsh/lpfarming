@@ -9,7 +9,6 @@ interface IlpDeployer {
             address factory,
             address owner,
             address token,
-            address baseToken,
             uint256 rewardProportion
         );
 }

@@ -2,43 +2,34 @@
 pragma solidity >=0.8.0;
 
 import "./interfaces/IlpDeployer.sol";
-import "./lpFarm.sol";
+import "./LPFarm.sol";
 
-contract LpDeployer is IlpDeployer {
+contract LPDeployer is IlpDeployer {
     struct LpParameters {
         address factory;
         address owner;
         address token;
-        address baseToken;
         uint256 rewardProportion;
     }
 
     LpParameters public override lpParameters;
 
-    function deployLpFarm(
+    function deployLPFarm(
         address factory,
         address owner,
         address token,
-        address baseToken,
         uint256 rewardProportion
     ) internal returns (address lpFarm) {
         lpParameters = LpParameters({
             factory: factory,
             owner: owner,
             token: token,
-            baseToken: baseToken,
             rewardProportion: rewardProportion
         });
         lpFarm = address(
-            new LpFarm{
+            new LPFarm{
                 salt: keccak256(
-                    abi.encode(
-                        factory,
-                        owner,
-                        token,
-                        baseToken,
-                        rewardProportion
-                    )
+                    abi.encode(factory, owner, token, rewardProportion)
                 )
             }()
         );
